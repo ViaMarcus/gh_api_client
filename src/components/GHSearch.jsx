@@ -4,13 +4,13 @@ import axios from 'axios'
 
 class GHSearch extends Component {
   state = {
-    result: "",
+    result: [],
     searchMessage: "",
     user: ""
   }
 
   searchHandler = async event => {
-    let message, response;
+    let response;
     const query = event.target.sfield.value
     try {
       response = await axios.get(`https://api.github.com/search/users?q=${query}`)
@@ -18,14 +18,22 @@ class GHSearch extends Component {
       if (length == 0) {
         this.setState({ searchMessage: "No results found"})
       } else {
-        this.setState({ items: response.data.items, searchMessage: length > 30 ? `Showing results 1-30 of length` : `Showing ${length} results`})
+        this.setState({ result: response.data.items, searchMessage: length > 30 ? `Showing results 1-30 of length` : `Showing ${length} results`})
       }
     } catch (error) {
       this.setState({ searchMessage: "Something went wrong"})
     }
-    
-    debugger;
-    this.setState({ result: response.data })
+  }
+
+  renderResults = (items) => {
+    let table = items.map((item, index) => {
+      return(
+        <div id={"search-result-" + index}>
+          <h3>{item.login}</h3>
+        </div>
+      )
+    })
+    return table
   }
 
   render(){
@@ -33,10 +41,13 @@ class GHSearch extends Component {
     <>
       <Form onSubmit={this.searchHandler}>
         <Input type="text" id="search-field" name="sfield" placeholder="Input GH username"/>
-        <Button name="search-btn" id="search_submit">Search</Button>
+        <Button name="search-btn" id="search-submit">Search</Button>
       </Form>
       <p id="search-message">{this.state.searchMessage}</p>
-      <p>{this.state.result}</p>
+      <div id="result">
+        <p>{this.renderResults(this.state.result)}</p>
+      </div>
+      
     </>
   )
   }

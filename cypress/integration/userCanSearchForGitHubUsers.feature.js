@@ -9,7 +9,7 @@ describe("User can search for GitHub users", () => {
     });
     cy.route({
       method: "GET",
-      url: "https://api.github.com/search/users?q=tom+repos",
+      url: "https://api.github.com/search/users?q=tom%20repos",
       response: "fixture: search_result.json",
     });
   });
@@ -21,7 +21,7 @@ describe("User can search for GitHub users", () => {
     });
 
     it("displays the amount of results", () => {
-      cy.get("p#search-message").should("contain", "8 results");
+      cy.get("p#search-message").should("contain", "12 results");
     });
 
     it("displays the first result", () => {
