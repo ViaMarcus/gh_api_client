@@ -25,11 +25,11 @@ describe("User can search for GitHub users", () => {
     });
 
     it("displays the first result", () => {
-      cy.get("result-1").should("contain", "mojombo");
+      cy.get("#result-1").should("contain", "dunklesToast");
     });
 
     it("displays the second result", () => {
-      cy.get("result-2").should("contain", "tmcw");
+      cy.get("#result-2").should("contain", "tomwillfixit");
     });
   });
 

@@ -14,11 +14,11 @@ class GHSearch extends Component {
     const query = event.target.sfield.value
     try {
       response = await axios.get(`https://api.github.com/search/users?q=${query}`)
-      let length = response.data.items.length
+      let length = response.data.total_count
       if (length == 0) {
         this.setState({ searchMessage: "No results found"})
       } else {
-        this.setState({ result: response.data.items, searchMessage: length > 30 ? `Showing results 1-30 of length` : `Showing ${length} results`})
+        this.setState({ result: response.data.items, searchMessage: length > 30 ? `Showing results 1-30 of ${length}` : `Showing ${length} results`})
       }
     } catch (error) {
       this.setState({ searchMessage: "Something went wrong"})
@@ -28,8 +28,8 @@ class GHSearch extends Component {
   renderResults = (items) => {
     let table = items.map((item, index) => {
       return(
-        <div id={"search-result-" + index}>
-          <h3>{item.login}</h3>
+        <div key={index} id={"result-" + index + 1}>
+          <h3><a href={} >{item.login}</a></h3>
         </div>
       )
     })
