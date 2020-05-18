@@ -20,7 +20,7 @@ describe("User can search for GitHub users", () => {
       cy.get("button#search-submit").click();
     });
 
-    it("displays the amoubt of results", () => {
+    it("displays the amount of results", () => {
       cy.get("p#search-message").should("contain", "8 results");
     });
 
@@ -69,5 +69,11 @@ describe("User can search for GitHub users", () => {
       cy.get("#mojambo").click();
       cy.get("#profile").should("contain", "Name: Tom Preston-Werner");
     });
+
+    it('can go to their repo on GH', () => {
+      cy.get("#mojambo").click();
+      cy.get('a').contains('github.com').click()
+      cy.url().should('contain', "github.com/mojambo")
+    })
   });
 });
