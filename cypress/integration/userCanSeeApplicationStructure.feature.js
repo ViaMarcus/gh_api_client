@@ -7,4 +7,12 @@ describe('Application main view', () => {
     cy.get("section[name='title']")
       .should('contain', 'GitHub Search engine')
   });
+
+  it('contains search bar', () => {
+    cy.get('input#search-field').should('exist')
+  })
+
+  it('contains search submit', () => {
+    cy.get('button#search-submit').should('exist')
+  })
 });
